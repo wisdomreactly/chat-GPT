@@ -6,72 +6,169 @@
     <title>Hacker AI Chat</title>
     <style>
         body {
-            background-color: #000; /* Latar belakang hitam */
-            color: #00ff00; /* Hijau neon */
-            font-family: 'Courier New', Courier, monospace; /* Gaya terminal */
+            background: #0d0d0d; /* Gelap */
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             height: 100vh;
+            overflow: hidden;
         }
 
-        h1 {
-            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; /* Efek bercahaya */
-        }
-
-        #chatbox {
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #00ff00;
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background: #000000;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 15px #00ff00;
             width: 90%;
-            max-width: 800px;
-            height: 400px;
+            max-width: 600px;
+            height: 90vh;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        /* Efek Glitch Header */
+        .header {
+            font-size: 24px;
+            color: #00ff00;
+            position: relative;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            animation: glitch 1.5s infinite;
+        }
+
+        .header::before, .header::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            overflow: hidden;
+            color: #00ff00;
+            z-index: -1;
+        }
+
+        .header::before {
+            left: -2px;
+            text-shadow: -2px 0 #00ff00;
+            animation: glitch-before 1.5s infinite;
+        }
+
+        .header::after {
+            left: 2px;
+            text-shadow: 2px 0 #00ff00;
+            animation: glitch-after 1.5s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes glitch-before {
+            0% { transform: translate(0, 0); opacity: 1; }
+            20% { transform: translate(-2px, -2px); opacity: 0.8; }
+            40% { transform: translate(-5px, 5px); opacity: 1; }
+            100% { transform: translate(0, 0); opacity: 1; }
+        }
+
+        @keyframes glitch-after {
+            0% { transform: translate(0, 0); opacity: 1; }
+            20% { transform: translate(2px, 2px); opacity: 0.8; }
+            40% { transform: translate(5px, -5px); opacity: 1; }
+            100% { transform: translate(0, 0); opacity: 1; }
+        }
+
+        .chatbox {
+            flex-grow: 1;
+            background: #101010;
+            color: #00ff00;
             overflow-y: auto;
+            width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px #00ff00;
+            margin: 10px 0;
         }
 
         .chat {
             margin: 5px 0;
         }
 
-        .user, .bot {
+        .user {
             color: #00ff00;
+            font-weight: bold;
+        }
+
+        .bot {
+            color: #00ff00;
+            opacity: 0.8;
+        }
+
+        .input-area {
+            display: flex;
+            width: 100%;
+            gap: 10px;
         }
 
         #userInput {
-            width: 80%;
+            flex-grow: 1;
             padding: 10px;
-            background: #000;
+            background: #101010;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
             color: #00ff00;
-            border: 1px solid #00ff00;
-            outline: none;
             font-family: inherit;
+            outline: none;
         }
 
         button {
-            padding: 10px 20px;
             background: #000;
             color: #00ff00;
-            border: 1px solid #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px 20px;
+            border-radius: 5px;
             font-family: inherit;
             cursor: pointer;
+            box-shadow: 0 0 10px #00ff00;
         }
 
         button:hover {
             background: #00ff00;
             color: #000;
         }
+
+        /* Scrollbar Styling */
+        .chatbox::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chatbox::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <h1>Hacker AI Chat</h1>
-    <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="Type your message..." />
-    <button onclick="sendMessage()">Send</button>
+    <div class="container">
+        <div class="header" data-text="Hacker AI Chat">Hacker AI Chat</div>
+        <div class="chatbox" id="chatbox"></div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
 
     <script>
         const chatbox = document.getElementById('chatbox');
