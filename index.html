@@ -5,40 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacker AI Chat</title>
     <style>
-        body {
-            background: #0d0d0d; /* Gelap */
-            font-family: 'Courier New', Courier, monospace;
+        /* Basic Reset */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d0d0d; /* Dark background */
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            margin: 0;
         }
 
         .container {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             align-items: center;
-            background: #000000;
+            justify-content: flex-start;
+            background: #000;
             border: 2px solid #00ff00;
-            box-shadow: 0 0 15px #00ff00;
-            width: 90%;
+            width: 100%;
             max-width: 600px;
-            height: 90vh;
+            height: 80vh;
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px #00ff00;
+            overflow: hidden;
         }
 
-        /* Efek Glitch Header */
+        /* Header Styling with Glitch Effect */
         .header {
-            font-size: 24px;
+            font-size: 32px;
             color: #00ff00;
+            text-align: center;
+            font-weight: bold;
             position: relative;
             text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-            animation: glitch 1.5s infinite;
+            animation: glitch 2s infinite;
         }
 
         .header::before, .header::after {
@@ -57,13 +65,13 @@
         .header::before {
             left: -2px;
             text-shadow: -2px 0 #00ff00;
-            animation: glitch-before 1.5s infinite;
+            animation: glitch-before 2s infinite;
         }
 
         .header::after {
             left: 2px;
             text-shadow: 2px 0 #00ff00;
-            animation: glitch-after 1.5s infinite;
+            animation: glitch-after 2s infinite;
         }
 
         @keyframes glitch {
@@ -77,29 +85,32 @@
 
         @keyframes glitch-before {
             0% { transform: translate(0, 0); opacity: 1; }
-            20% { transform: translate(-2px, -2px); opacity: 0.8; }
+            20% { transform: translate(-3px, 3px); opacity: 0.8; }
             40% { transform: translate(-5px, 5px); opacity: 1; }
+            60% { transform: translate(-3px, -3px); opacity: 0.6; }
             100% { transform: translate(0, 0); opacity: 1; }
         }
 
         @keyframes glitch-after {
             0% { transform: translate(0, 0); opacity: 1; }
-            20% { transform: translate(2px, 2px); opacity: 0.8; }
+            20% { transform: translate(3px, -3px); opacity: 0.8; }
             40% { transform: translate(5px, -5px); opacity: 1; }
+            60% { transform: translate(3px, 3px); opacity: 0.6; }
             100% { transform: translate(0, 0); opacity: 1; }
         }
 
+        /* Chatbox Styling */
         .chatbox {
-            flex-grow: 1;
+            width: 100%;
+            height: 60vh;
             background: #101010;
             color: #00ff00;
-            overflow-y: auto;
-            width: 100%;
             padding: 10px;
+            margin: 10px 0;
+            overflow-y: auto;
             border: 1px solid #00ff00;
             border-radius: 5px;
             box-shadow: inset 0 0 10px #00ff00;
-            margin: 10px 0;
         }
 
         .chat {
@@ -116,10 +127,12 @@
             opacity: 0.8;
         }
 
+        /* Input area and button */
         .input-area {
             display: flex;
             width: 100%;
             gap: 10px;
+            margin-top: 10px;
         }
 
         #userInput {
@@ -158,6 +171,7 @@
             background: #00ff00;
             border-radius: 5px;
         }
+
     </style>
 </head>
 <body>
@@ -178,10 +192,11 @@
             const message = userInput.value.trim();
             if (!message) return;
 
+            // Display user message
             chatbox.innerHTML += `<div class="chat user">You: ${message}</div>`;
             userInput.value = '';
-            
-            // Placeholder untuk loading
+
+            // Add typing placeholder for bot
             const typingMessage = `<div class="chat bot">GPT is typing...</div>`;
             chatbox.innerHTML += typingMessage;
             chatbox.scrollTop = chatbox.scrollHeight;
@@ -201,6 +216,11 @@
 
             chatbox.scrollTop = chatbox.scrollHeight;
         }
+
+        // Auto-scroll on load
+        window.onload = () => {
+            chatbox.scrollTop = chatbox.scrollHeight;
+        };
     </script>
 </body>
 </html>
