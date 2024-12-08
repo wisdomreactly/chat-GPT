@@ -45,58 +45,23 @@
             text-align: center;
             font-weight: bold;
             position: relative;
-            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-            animation: glitch 2s infinite;
+            text-shadow: 2px 0 0 rgba(0,255,0,0.5), -2px 0 0 rgba(0,255,0,0.4);
+            animation: glitch 2s infinite, fadeIn 1s ease-in-out forwards;
         }
 
-        .header::before, .header::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            overflow: hidden;
-            color: #00ff00;
-            z-index: -1;
-        }
-
-        .header::before {
-            left: -2px;
-            text-shadow: -2px 0 #00ff00;
-            animation: glitch-before 2s infinite;
-        }
-
-        .header::after {
-            left: 2px;
-            text-shadow: 2px 0 #00ff00;
-            animation: glitch-after 2s infinite;
-        }
-
+        /* Glitch Animation */
         @keyframes glitch {
-            0% { transform: translate(0, 0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(2px, -2px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(2px, 2px); }
-            100% { transform: translate(0, 0); }
+            0% { text-shadow: 2px 0 0 rgba(0,255,0,0.5), -2px 0 0 rgba(0,255,0,0.4); }
+            25% { text-shadow: -2px 0 0 rgba(0,255,0,0.5), 2px 0 0 rgba(0,255,0,0.4); }
+            50% { text-shadow: 2px 0 0 rgba(0,255,0,0.5), -2px 0 0 rgba(0,255,0,0.4); }
+            75% { text-shadow: -2px 0 0 rgba(0,255,0,0.5), 2px 0 0 rgba(0,255,0,0.4); }
+            100% { text-shadow: 2px 0 0 rgba(0,255,0,0.5), -2px 0 0 rgba(0,255,0,0.4); }
         }
 
-        @keyframes glitch-before {
-            0% { transform: translate(0, 0); opacity: 1; }
-            20% { transform: translate(-3px, 3px); opacity: 0.8; }
-            40% { transform: translate(-5px, 5px); opacity: 1; }
-            60% { transform: translate(-3px, -3px); opacity: 0.6; }
-            100% { transform: translate(0, 0); opacity: 1; }
-        }
-
-        @keyframes glitch-after {
-            0% { transform: translate(0, 0); opacity: 1; }
-            20% { transform: translate(3px, -3px); opacity: 0.8; }
-            40% { transform: translate(5px, -5px); opacity: 1; }
-            60% { transform: translate(3px, 3px); opacity: 0.6; }
-            100% { transform: translate(0, 0); opacity: 1; }
+        /* FadeIn Effect */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Chatbox Styling */
@@ -172,6 +137,29 @@
             border-radius: 5px;
         }
 
+        /* Media Queries for Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                font-size: 28px;
+            }
+
+            .chatbox {
+                height: 50vh;
+            }
+
+            #userInput {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -193,7 +181,7 @@
             if (!message) return;
 
             // Display user message
-            chatbox.innerHTML += `<div class="chat user">You: ${message}</div>`;
+            chatbox.innerHTML += `<div class="chat user">User : ${message}</div>`;
             userInput.value = '';
 
             // Add typing placeholder for bot
@@ -209,9 +197,9 @@
                 });
 
                 const data = await response.json();
-                chatbox.innerHTML = chatbox.innerHTML.replace(typingMessage, `<div class="chat bot">GPT: ${data.response}</div>`);
+                chatbox.innerHTML = chatbox.innerHTML.replace(typingMessage, `<div class="chat bot">Robot : ${data.response}</div>`);
             } catch (error) {
-                chatbox.innerHTML = chatbox.innerHTML.replace(typingMessage, `<div class="chat bot">Error: Unable to fetch response</div>`);
+                chatbox.innerHTML = chatbox.innerHTML.replace(typingMessage, `<div class="chat bot">Anonymous : Unable to fetch response</div>`);
             }
 
             chatbox.scrollTop = chatbox.scrollHeight;
